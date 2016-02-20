@@ -1,8 +1,5 @@
 package net.chris.configuration;
 
-import javax.jms.ConnectionFactory;
-
-import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.command.ActiveMQTopic;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,12 +13,7 @@ import net.chris.messaging.IncomingMessageListener;
 public class Application {
 
 	@Bean
-    public ConnectionFactory connectionFactory() {
-        return new ActiveMQConnectionFactory("tcp://localhost:61616/");
-    }
-	
-	@Bean
-	public ActiveMQTopic simpleTopic() {
+	public ActiveMQTopic oneMinuteMarketsTopic() {
 	    return new ActiveMQTopic("minuteMarketsUpdateTopic");
 	}
 	
