@@ -9,13 +9,16 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.chris.caerus.output.CaerusOutput;
+import net.chris.incident.IncidentProcessor;
 
 public class IncomingMessageListener {
 
 	private ObjectMapper objectMapper;
+	private IncidentProcessor incidentProcessor;
 	
-	public IncomingMessageListener(final ObjectMapper objectMapper) {
+	public IncomingMessageListener(final ObjectMapper objectMapper, final IncidentProcessor incidentProcessor) {
 		this.objectMapper = objectMapper;
+		this.incidentProcessor = incidentProcessor;
 	}
 	
 	@JmsListener(destination = "minuteMarketsUpdateTopic")
@@ -25,5 +28,7 @@ public class IncomingMessageListener {
 		final CaerusOutput caerusOutput = objectMapper.readValue(message, CaerusOutput.class);
 		
 		System.out.println("SUCCESSFULLY READ MESSAGE");
+		
+		incidentProcessor.processIncidentUpdate(caerusOutput);
 	}
 }

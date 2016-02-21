@@ -8,6 +8,7 @@ import org.springframework.jms.annotation.EnableJms;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import net.chris.incident.IncidentProcessor;
 import net.chris.messaging.IncomingMessageListener;
 
 @SpringBootApplication
@@ -21,12 +22,17 @@ public class Application {
 	
 	@Bean
 	public IncomingMessageListener incomingMessageListener() {
-		return new IncomingMessageListener(objectMapper());
+		return new IncomingMessageListener(objectMapper(), incidentProcessor());
 	}
 	
 	@Bean
 	public ObjectMapper objectMapper() {
 		return new ObjectMapper();
+	}
+	
+	@Bean
+	public IncidentProcessor incidentProcessor() {
+		return new IncidentProcessor();
 	}
 
 	public static void main (final String [] args) {
