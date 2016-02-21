@@ -1,0 +1,97 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://jsonschema.net",
+  "type": "object",
+  "properties": {
+    "eventId": {
+      "id": "http://jsonschema.net/eventId",
+      "type": "integer"
+    },
+    "tradingId": {
+      "id": "http://jsonschema.net/tradingId",
+      "type": "string"
+    },
+    "homeTeamName": {
+      "id": "http://jsonschema.net/homeTeamName",
+      "type": "string"
+    },
+    "awayTeamName": {
+      "id": "http://jsonschema.net/awayTeamName",
+      "type": "string"
+    },
+    "period": {
+      "id": "http://jsonschema.net/period",
+      "type": "string"
+    },
+    "suspended": {
+      "id": "http://jsonschema.net/suspended",
+      "type": "boolean"
+    },
+    "incidents": {
+      "id": "http://jsonschema.net/incidents",
+      "type": "array",
+      "items": {
+        "id": "http://jsonschema.net/incidents/4",
+        "type": "object",
+        "properties": {
+          "type": {
+            "id": "http://jsonschema.net/incidents/4/type",
+            "type": "string"
+          },
+          "period": {
+            "id": "http://jsonschema.net/incidents/4/period",
+            "type": "string"
+          },
+          "gameSeconds": {
+            "id": "http://jsonschema.net/incidents/4/gameSeconds",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "variables": {
+      "id": "http://jsonschema.net/variables",
+      "type": "array",
+      "items": {
+        "id": "http://jsonschema.net/variables/12",
+        "type": "object",
+        "properties": {
+          "name": {
+            "id": "http://jsonschema.net/variables/12/name",
+            "type": "string"
+          },
+          "value": {
+            "id": "http://jsonschema.net/variables/12/value",
+            "type": "string"
+          },
+          "period": {
+            "id": "http://jsonschema.net/variables/12/period",
+            "type": "string"
+          },
+          "gameSeconds": {
+            "id": "http://jsonschema.net/variables/12/gameSeconds",
+            "type": "integer"
+          },
+          "supplierName": {
+            "id": "http://jsonschema.net/variables/12/supplierName",
+            "type": "string"
+          },
+          "updateTime": {
+            "id": "http://jsonschema.net/variables/12/updateTime",
+            "type": "number"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "eventId",
+    "tradingId",
+    "homeTeamName",
+    "awayTeamName",
+    "period",
+    "suspended",
+    "incidents",
+    "variables"
+  ]
+}

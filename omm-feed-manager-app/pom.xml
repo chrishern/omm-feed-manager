@@ -1,9 +1,38 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>net.chris</groupId>
-    <artifactId>omm-feed-manager</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-  </parent>
-  <artifactId>omm-feed-manager-app</artifactId>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>net.chris</groupId>
+		<artifactId>omm-feed-manager</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>omm-feed-manager-app</artifactId>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.jsonschema2pojo</groupId>
+				<artifactId>jsonschema2pojo-maven-plugin</artifactId>
+				<version>0.4.19</version>
+				<configuration>
+					<sourceDirectory>${project.basedir}/src/main/resources/schema/caerus-output.schema</sourceDirectory>
+					<targetPackage>net.chris.caerus.output</targetPackage>
+					<useJodaDates>true</useJodaDates>
+					<addCompileSourceRoot>true</addCompileSourceRoot>
+					<removeOldOutput>true</removeOldOutput>
+					<outputEncoding>UTF-8</outputEncoding>
+					<outputDirectory>${project.build.directory}/generated-sources/jackson</outputDirectory>
+					<sourceType>jsonschema</sourceType>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+
+	</build>
 </project>

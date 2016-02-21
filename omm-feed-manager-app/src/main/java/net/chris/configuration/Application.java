@@ -6,6 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jms.annotation.EnableJms;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import net.chris.messaging.IncomingMessageListener;
 
 @SpringBootApplication
@@ -19,7 +21,12 @@ public class Application {
 	
 	@Bean
 	public IncomingMessageListener incomingMessageListener() {
-		return new IncomingMessageListener();
+		return new IncomingMessageListener(objectMapper());
+	}
+	
+	@Bean
+	public ObjectMapper objectMapper() {
+		return new ObjectMapper();
 	}
 
 	public static void main (final String [] args) {

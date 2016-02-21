@@ -28,6 +28,8 @@ public class EndToEndIT {
 	private MessageProducer producer;
 	private Session session;
 	
+	private static final String SAMPLE_MESSAGE = "{\"eventId\":259407,\"tradingId\":\"264e7970-d499-11e5-82ae-005056b00125\",\"homeTeamName\":\"South China\",\"awayTeamName\":\"Yuen Long District\",\"period\":\"PRE_GAME\",\"suspended\":false,\"incidents\":[],\"variables\":[{\"name\":\"Goal scored time\",\"value\":\"0\",\"period\":\"PRE_GAME\",\"gameSeconds\":0,\"supplierName\":\"Inplay GUI\",\"updateTime\":1455618994323}]}";
+	
 	@Before
 	public void setup() throws Exception {
 		connection = connectionFactory.createConnection();
@@ -43,7 +45,7 @@ public class EndToEndIT {
 	
 	@After
 	public void shutdown() throws Exception {
-		Thread.sleep(50);	// Avoid connections being shut down too early
+		Thread.sleep(100);	// Avoid connections being shut down too early
 		producer.close();
         session.close();
 	}
@@ -52,7 +54,7 @@ public class EndToEndIT {
 	public void test() throws Exception {
         // arrange
 		final TextMessage message = session.createTextMessage();
-		message.setText("HELLO JMS WORLD");
+		message.setText(SAMPLE_MESSAGE);
 
 		// act
 		producer.send(message);
