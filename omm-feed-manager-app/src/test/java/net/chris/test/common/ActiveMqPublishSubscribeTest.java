@@ -36,8 +36,12 @@ public abstract class ActiveMqPublishSubscribeTest {
 	
 	@After
 	public void shutdown() throws Exception {
-		Thread.sleep(100);	// Avoid connections being shut down too early
+		pauseForAsyncProcessing();	// Avoid connections being shut down too early
 		producer.close();
         session.close();
+	}
+
+	protected void pauseForAsyncProcessing() throws InterruptedException {
+		Thread.sleep(500);
 	}
 }

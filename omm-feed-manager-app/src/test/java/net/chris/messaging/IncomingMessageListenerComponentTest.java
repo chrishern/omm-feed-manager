@@ -32,7 +32,7 @@ public class IncomingMessageListenerComponentTest extends ActiveMqPublishSubscri
 		producer.send(message);
 		
 		// assert
-		Thread.sleep(500);	// avoid any timing issues due to async processing
+		pauseForAsyncProcessing();	// avoid any timing issues due to async processing
 		verify(mockedIncidentProcessor).processIncidentUpdate(any(CaerusOutput.class));
 	}
 
