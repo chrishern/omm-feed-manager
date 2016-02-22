@@ -2,14 +2,12 @@ package net.chris.messaging;
 
 import java.io.IOException;
 
-import org.springframework.jms.annotation.JmsListener;
-
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import net.chris.caerus.output.CaerusOutput;
+import net.chris.api.caerus.output.CaerusOutput;
 import net.chris.incident.IncidentProcessor;
+import org.springframework.jms.annotation.JmsListener;
 
 public class IncomingMessageListener {
 

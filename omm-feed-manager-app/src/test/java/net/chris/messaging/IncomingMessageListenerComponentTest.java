@@ -5,15 +5,14 @@ import static org.mockito.Mockito.verify;
 
 import javax.jms.TextMessage;
 
+import net.chris.api.caerus.output.CaerusOutput;
+import net.chris.incident.IncidentProcessor;
+import net.chris.test.common.ActiveMqPublishSubscribeTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import net.chris.caerus.output.CaerusOutput;
-import net.chris.incident.IncidentProcessor;
-import net.chris.test.common.ActiveMqPublishSubscribeTest;
 
 /**
  * Component test for the {@link IncomingMessageListener}.  Its aim is to make sure that the component is 

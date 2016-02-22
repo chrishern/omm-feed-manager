@@ -33,7 +33,6 @@
       "items": {
         "id": "http://jsonschema.net/incidents/4",
         "type": "object",
-        "javaType": "net.chris.json.common.Incident",
         "properties": {
           "type": {
             "id": "http://jsonschema.net/incidents/4/type",

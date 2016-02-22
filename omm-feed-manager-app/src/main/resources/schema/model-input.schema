@@ -2,7 +2,6 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "http://jsonschema.net",
   "type": "object",
-  "javaType": "net.chris.model.input.ModelInput",
   "properties": {
     "awayTeamName": {
       "id": "http://jsonschema.net/awayTeamName",
@@ -26,7 +25,6 @@
       "items": {
         "id": "http://jsonschema.net/incidents/1",
         "type": "object",
-        "javaType": "net.chris.json.common.Incident",
         "properties": {
           "gameSeconds": {
             "id": "http://jsonschema.net/incidents/1/gameSeconds",

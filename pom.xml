@@ -17,7 +17,8 @@
 	</parent>
 
     <properties>
-        <jackson.version>2.7.0</jackson.version>
+        <jackson.version>2.6.3</jackson.version>
+        <model.version>1.0.1</model.version>
     </properties>
 
 	<dependencies>
@@ -50,6 +51,13 @@
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-joda</artifactId>
             <version>${jackson.version}</version>
+        </dependency>
+
+		<!-- Model -->
+        <dependency>
+            <groupId>com.williamhill.trading.rnd.frameworks.model</groupId>
+            <artifactId>model-framework-model-runner</artifactId>
+            <version>${model.version}</version>
         </dependency>
 
 		<!-- Test dependencies -->
