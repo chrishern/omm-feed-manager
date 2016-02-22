@@ -3,12 +3,13 @@
  */
 package net.chris.incident;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import net.chris.api.caerus.output.CaerusOutput;
 import net.chris.api.model.input.Incident;
 import net.chris.api.model.input.ModelInput;
+import net.chris.incident.adapter.ModelIncidentAdapter;
 import net.chris.model.ModelClient;
 
 public class IncidentProcessor {
@@ -43,31 +44,11 @@ public class IncidentProcessor {
         modelInput.setPreMatchThrowInExpectancy(40);
         modelInput.setPreMatchWoodworkExpectancy(1);
 
-        final List<Incident> modelIncidents = new ArrayList<Incident>();
-
-        // TODO - convert to Java8
-        for (final net.chris.api.caerus.output.Incident caerusIncident : incidentMessage.getIncidents()) {
-
-            final Incident modelIncident = new Incident();
-
-            modelIncident.setGameSeconds(caerusIncident.getGameSeconds());
-            modelIncident.setIncidentType(caerusIncident.getType());
-            modelIncident.setPeriod(toModelPeriod(caerusIncident.getPeriod()));
-
-            modelIncidents.add(modelIncident);
-        }
-
+        final List<Incident> modelIncidents = incidentMessage.getIncidents().stream().map(
+                caerusIncident -> ModelIncidentAdapter.fromCaerusIncident(caerusIncident))
+                    .collect(Collectors.toList());
         modelInput.setIncidents(modelIncidents);
 
         modelClient.sendIncidentUpdate(modelInput);
-    }
-
-    // TODO - Move to static class
-    private String toModelPeriod(final String caerusPeriod) {
-        if (caerusPeriod.equals("PRE_GAME")) {
-            return "PRE_MATCH";
-        }
-
-        return caerusPeriod;
     }
 }
