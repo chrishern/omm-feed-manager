@@ -3,7 +3,7 @@ package net.chris.model;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.chris.api.model.input.ModelInput;
+import com.williamhill.rnd.football.minutemarkets.villager.dto.MinuteMarketsFootballEventDto;
 import net.chris.api.model.output.OutboundMessage;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -19,7 +19,7 @@ public class ModelRestClient implements ModelClient {
     }
 
     @Override
-    public OutboundMessage sendIncidentUpdate(final ModelInput incidentUpdate) {
+    public OutboundMessage sendIncidentUpdate(final MinuteMarketsFootballEventDto incidentUpdate) {
 
         // TODO - don't need this
         ObjectMapper objectMapper = new ObjectMapper();

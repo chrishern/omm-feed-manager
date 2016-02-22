@@ -1,17 +1,18 @@
 package net.chris.incident.adapter;
 
 
-import net.chris.api.model.input.Incident;
+import com.williamhill.rnd.football.minutemarkets.domain.FootballIncident;
+import com.williamhill.rnd.football.minutemarkets.villager.dto.IncidentDto;
+import net.chris.api.caerus.output.Incident;
 
 public final class ModelIncidentAdapter {
 
-    public static Incident fromCaerusIncident(final net.chris.api.caerus.output.Incident caerusIncident) {
+    public static IncidentDto fromCaerusIncident(final Incident caerusIncident) {
 
-        final Incident modelIncident = new Incident();
+        final String modelPeriod = toModelPeriod(caerusIncident.getPeriod());
+        final FootballIncident modelIncidentType = FootballIncident.getByType(caerusIncident.getType());
 
-        modelIncident.setGameSeconds(caerusIncident.getGameSeconds());
-        modelIncident.setIncidentType(caerusIncident.getType());
-        modelIncident.setPeriod(toModelPeriod(caerusIncident.getPeriod()));
+        final IncidentDto modelIncident = new IncidentDto(modelIncidentType, caerusIncident.getGameSeconds(), modelPeriod);
 
         return modelIncident;
     }

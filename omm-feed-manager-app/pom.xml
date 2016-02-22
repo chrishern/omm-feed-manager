@@ -18,6 +18,7 @@
 					<useJodaDates>true</useJodaDates>
 					<addCompileSourceRoot>true</addCompileSourceRoot>
 					<outputEncoding>UTF-8</outputEncoding>
+                    <removeOldOutput>true</removeOldOutput>
 					<outputDirectory>${project.build.directory}/generated-sources/jackson</outputDirectory>
 					<sourceType>jsonschema</sourceType>
 				</configuration>
@@ -32,16 +33,6 @@
                             <targetPackage>net.chris.api.caerus.output</targetPackage>
                         </configuration>
 					</execution>
-                    <execution>
-                        <id>model-input</id>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <sourceDirectory>${project.basedir}/src/main/resources/schema/model-input.schema</sourceDirectory>
-                            <targetPackage>net.chris.api.model.input</targetPackage>
-                        </configuration>
-                    </execution>
 				</executions>
 			</plugin>
 		</plugins>

@@ -19,6 +19,7 @@
     <properties>
         <jackson.version>2.6.3</jackson.version>
         <model.version>1.0.1</model.version>
+        <one-minute-markets-model.version>0.0.3</one-minute-markets-model.version>
     </properties>
 
 	<dependencies>
@@ -58,6 +59,16 @@
             <groupId>com.williamhill.trading.rnd.frameworks.model</groupId>
             <artifactId>model-framework-model-runner</artifactId>
             <version>${model.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.williamhill.rnd</groupId>
+            <artifactId>football-minute-markets-model</artifactId>
+            <version>${one-minute-markets-model.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.williamhill.rnd</groupId>
+            <artifactId>football-minute-markets-web</artifactId>
+            <version>${one-minute-markets-model.version}</version>
         </dependency>
 
 		<!-- Test dependencies -->
