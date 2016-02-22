@@ -6,6 +6,7 @@ package net.chris.incident;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.hazelcast.core.HazelcastInstance;
 import com.williamhill.rnd.football.minutemarkets.villager.dto.IncidentDto;
 import com.williamhill.rnd.football.minutemarkets.villager.dto.MinuteMarketsFootballEventDto;
 import net.chris.api.caerus.output.CaerusOutput;
@@ -18,10 +19,12 @@ public class IncidentProcessor {
 
 	private ModelClient modelClient;
     private ModelOutputProcessor modelOutputProcessor;
+    private HazelcastInstance hazelcastInstance;
 
-    public IncidentProcessor(final ModelClient modelClient, final ModelOutputProcessor modelOutputProcessor) {
+    public IncidentProcessor(final ModelClient modelClient, final ModelOutputProcessor modelOutputProcessor, final HazelcastInstance hazelcastInstance) {
         this.modelClient = modelClient;
         this.modelOutputProcessor = modelOutputProcessor;
+        this.hazelcastInstance = hazelcastInstance;
     }
 
 	public void processIncidentUpdate(final CaerusOutput incidentMessage) {

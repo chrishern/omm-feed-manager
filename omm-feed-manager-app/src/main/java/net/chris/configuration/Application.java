@@ -4,12 +4,15 @@ import javax.jms.ConnectionFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
+import com.hazelcast.config.Config;
+import com.hazelcast.core.HazelcastInstance;
 import net.chris.incident.IncidentProcessor;
 import net.chris.messaging.IncomingMessageListener;
 import net.chris.model.ModelClient;
 import net.chris.model.ModelOutputProcessor;
 import net.chris.model.ModelRestClient;
 import org.apache.activemq.command.ActiveMQTopic;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +23,9 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 @EnableJms
 public class Application {
+
+    @Autowired
+    private HazelcastInstance instance;
 
 	@Bean
 	public ActiveMQTopic oneMinuteMarketsTopic() {
@@ -42,7 +48,7 @@ public class Application {
 	
 	@Bean
 	public IncidentProcessor incidentProcessor(final ConnectionFactory connectionFactory) {
-		return new IncidentProcessor(modelClient(), modelOutputProcessor(connectionFactory));
+		return new IncidentProcessor(modelClient(), modelOutputProcessor(connectionFactory), instance);
 	}
 
     @Bean
@@ -68,6 +74,11 @@ public class Application {
     @Bean
     public ModelOutputProcessor modelOutputProcessor(final ConnectionFactory connectionFactory) {
         return new ModelOutputProcessor(jmsTemplate(connectionFactory));
+    }
+
+    @Bean
+    public Config hazelcastConfig() {
+        return new Config();
     }
 
 	public static void main (final String [] args) {
