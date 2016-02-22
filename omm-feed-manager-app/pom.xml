@@ -15,7 +15,7 @@
 				<artifactId>jsonschema2pojo-maven-plugin</artifactId>
 				<version>0.4.19</version>
 				<configuration>
-					<sourceDirectory>${project.basedir}/src/main/resources/schema/caerus-output.schema</sourceDirectory>
+					<sourceDirectory>${project.basedir}/src/main/resources/schema/</sourceDirectory>
 					<targetPackage>net.chris.caerus.output</targetPackage>
 					<useJodaDates>true</useJodaDates>
 					<addCompileSourceRoot>true</addCompileSourceRoot>

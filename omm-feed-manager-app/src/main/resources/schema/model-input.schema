@@ -1,0 +1,109 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://jsonschema.net",
+  "type": "object",
+  "javaType": "net.chris.model.input.ModelInput",
+  "properties": {
+    "awayTeamName": {
+      "id": "http://jsonschema.net/awayTeamName",
+      "type": "string"
+    },
+    "currentGameSeconds": {
+      "id": "http://jsonschema.net/currentGameSeconds",
+      "type": "integer"
+    },
+    "currentPeriod": {
+      "id": "http://jsonschema.net/currentPeriod",
+      "type": "string"
+    },
+    "homeTeamName": {
+      "id": "http://jsonschema.net/homeTeamName",
+      "type": "string"
+    },
+    "incidents": {
+      "id": "http://jsonschema.net/incidents",
+      "type": "array",
+      "items": {
+        "id": "http://jsonschema.net/incidents/1",
+        "type": "object",
+        "javaType": "net.chris.json.common.Incident",
+        "properties": {
+          "gameSeconds": {
+            "id": "http://jsonschema.net/incidents/1/gameSeconds",
+            "type": "integer"
+          },
+          "incidentType": {
+            "id": "http://jsonschema.net/incidents/1/incidentType",
+            "type": "string"
+          },
+          "period": {
+            "id": "http://jsonschema.net/incidents/1/period",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "preMatchAwayOverRoundedPrice": {
+      "id": "http://jsonschema.net/preMatchAwayOverRoundedPrice",
+      "type": "number"
+    },
+    "preMatchBookingsPointsExpectancy": {
+      "id": "http://jsonschema.net/preMatchBookingsPointsExpectancy",
+      "type": "integer"
+    },
+    "preMatchCornersExpectancy": {
+      "id": "http://jsonschema.net/preMatchCornersExpectancy",
+      "type": "integer"
+    },
+    "preMatchDrawOverRoundedPrice": {
+      "id": "http://jsonschema.net/preMatchDrawOverRoundedPrice",
+      "type": "number"
+    },
+    "preMatchFreeKickExpectancy": {
+      "id": "http://jsonschema.net/preMatchFreeKickExpectancy",
+      "type": "integer"
+    },
+    "preMatchGoalKickExpectancy": {
+      "id": "http://jsonschema.net/preMatchGoalKickExpectancy",
+      "type": "integer"
+    },
+    "preMatchGoalsExpectancy": {
+      "id": "http://jsonschema.net/preMatchGoalsExpectancy",
+      "type": "number"
+    },
+    "preMatchHomeOverRoundedPrice": {
+      "id": "http://jsonschema.net/preMatchHomeOverRoundedPrice",
+      "type": "number"
+    },
+    "preMatchShotOnTargetExpectancy": {
+      "id": "http://jsonschema.net/preMatchShotOnTargetExpectancy",
+      "type": "integer"
+    },
+    "preMatchThrowInExpectancy": {
+      "id": "http://jsonschema.net/preMatchThrowInExpectancy",
+      "type": "integer"
+    },
+    "preMatchWoodworkExpectancy": {
+      "id": "http://jsonschema.net/preMatchWoodworkExpectancy",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "awayTeamName",
+    "currentGameSeconds",
+    "currentPeriod",
+    "homeTeamName",
+    "incidents",
+    "preMatchAwayOverRoundedPrice",
+    "preMatchBookingsPointsExpectancy",
+    "preMatchCornersExpectancy",
+    "preMatchDrawOverRoundedPrice",
+    "preMatchFreeKickExpectancy",
+    "preMatchGoalKickExpectancy",
+    "preMatchGoalsExpectancy",
+    "preMatchHomeOverRoundedPrice",
+    "preMatchShotOnTargetExpectancy",
+    "preMatchThrowInExpectancy",
+    "preMatchWoodworkExpectancy"
+  ]
+}
