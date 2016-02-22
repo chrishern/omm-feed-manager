@@ -9,22 +9,28 @@ import java.util.stream.Collectors;
 import com.williamhill.rnd.football.minutemarkets.villager.dto.IncidentDto;
 import com.williamhill.rnd.football.minutemarkets.villager.dto.MinuteMarketsFootballEventDto;
 import net.chris.api.caerus.output.CaerusOutput;
+import net.chris.api.model.output.OutboundMessage;
 import net.chris.incident.adapter.ModelIncidentAdapter;
 import net.chris.model.ModelClient;
+import net.chris.model.ModelOutputProcessor;
 
 public class IncidentProcessor {
 
 	private ModelClient modelClient;
+    private ModelOutputProcessor modelOutputProcessor;
 
-    public IncidentProcessor(final ModelClient modelClient) {
+    public IncidentProcessor(final ModelClient modelClient, final ModelOutputProcessor modelOutputProcessor) {
         this.modelClient = modelClient;
+        this.modelOutputProcessor = modelOutputProcessor;
     }
 
 	public void processIncidentUpdate(final CaerusOutput incidentMessage) {
-        sendUpdateToModel(incidentMessage);
-	}
+        final OutboundMessage modelOutput = sendUpdateToModel(incidentMessage);
 
-    private void sendUpdateToModel(final CaerusOutput incidentMessage) {
+        modelOutputProcessor.processModelOutput(modelOutput);
+    }
+
+    private OutboundMessage sendUpdateToModel(final CaerusOutput incidentMessage) {
 
         final List<IncidentDto> modelIncidents = incidentMessage.getIncidents().stream().map(
                 caerusIncident -> ModelIncidentAdapter.fromCaerusIncident(caerusIncident))
@@ -51,6 +57,6 @@ public class IncidentProcessor {
                 modelIncidents
         );
 
-        modelClient.sendIncidentUpdate(modelInput);
+        return modelClient.sendIncidentUpdate(modelInput);
     }
 }

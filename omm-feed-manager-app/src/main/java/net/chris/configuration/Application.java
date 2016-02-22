@@ -1,16 +1,20 @@
 package net.chris.configuration;
 
+import javax.jms.ConnectionFactory;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import net.chris.incident.IncidentProcessor;
 import net.chris.messaging.IncomingMessageListener;
 import net.chris.model.ModelClient;
+import net.chris.model.ModelOutputProcessor;
 import net.chris.model.ModelRestClient;
 import org.apache.activemq.command.ActiveMQTopic;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jms.annotation.EnableJms;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
@@ -23,8 +27,8 @@ public class Application {
 	}
 	
 	@Bean
-	public IncomingMessageListener incomingMessageListener() {
-		return new IncomingMessageListener(objectMapper(), incidentProcessor());
+	public IncomingMessageListener incomingMessageListener(final ConnectionFactory connectionFactory) {
+		return new IncomingMessageListener(objectMapper(), incidentProcessor(connectionFactory));
 	}
 	
 	@Bean
@@ -37,8 +41,8 @@ public class Application {
 	}
 	
 	@Bean
-	public IncidentProcessor incidentProcessor() {
-		return new IncidentProcessor(modelClient());
+	public IncidentProcessor incidentProcessor(final ConnectionFactory connectionFactory) {
+		return new IncidentProcessor(modelClient(), modelOutputProcessor(connectionFactory));
 	}
 
     @Bean
@@ -49,6 +53,21 @@ public class Application {
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
+    }
+
+	@Bean
+	public JmsTemplate jmsTemplate(final ConnectionFactory connectionFactory) {
+		final JmsTemplate jmsTemplate = new JmsTemplate(connectionFactory);
+		final ActiveMQTopic topic = new ActiveMQTopic("minuteMarketsModelUpdateTopic");
+
+		jmsTemplate.setDefaultDestination(topic);
+
+		return jmsTemplate;
+	}
+
+    @Bean
+    public ModelOutputProcessor modelOutputProcessor(final ConnectionFactory connectionFactory) {
+        return new ModelOutputProcessor(jmsTemplate(connectionFactory));
     }
 
 	public static void main (final String [] args) {
