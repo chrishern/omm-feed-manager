@@ -13,8 +13,8 @@ import net.chris.domain.DomainManager;
 import net.chris.event.EventProcessor;
 import net.chris.incident.IncidentProcessor;
 import net.chris.messaging.IncomingMessageListener;
-import net.chris.model.ModelClient;
 import net.chris.messaging.OutboundMessageSender;
+import net.chris.model.ModelClient;
 import net.chris.model.ModelRestClient;
 import org.apache.activemq.command.ActiveMQTopic;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jms.annotation.EnableJms;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
@@ -34,6 +33,12 @@ public class Application {
 
     @Autowired
     private HazelcastInstance instance;
+
+    @Autowired
+    private DomainManager domainManager;
+
+    @Autowired
+    private OutboundMessageSender outboundMessageSender;
 
 	@Bean
 	public ActiveMQTopic oneMinuteMarketsTopic() {
@@ -56,7 +61,7 @@ public class Application {
 	
 	@Bean
 	public IncidentProcessor incidentProcessor(final ConnectionFactory connectionFactory) {
-		return new IncidentProcessor(modelClient(), modelOutputProcessor(connectionFactory), domainManager());
+		return new IncidentProcessor(modelClient(), outboundMessageSender, domainManager);
 	}
 
     @Bean
@@ -67,21 +72,6 @@ public class Application {
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
-    }
-
-	@Bean
-	public JmsTemplate jmsTemplate(final ConnectionFactory connectionFactory) {
-		final JmsTemplate jmsTemplate = new JmsTemplate(connectionFactory);
-		final ActiveMQTopic topic = new ActiveMQTopic("minuteMarketsModelUpdateTopic");
-
-		jmsTemplate.setDefaultDestination(topic);
-
-		return jmsTemplate;
-	}
-
-    @Bean
-    public OutboundMessageSender modelOutputProcessor(final ConnectionFactory connectionFactory) {
-        return new OutboundMessageSender(jmsTemplate(connectionFactory));
     }
 
     @Bean
@@ -98,14 +88,9 @@ public class Application {
                 .addMapConfig(mapConfig);
     }
 
-	@Bean
-	public DomainManager domainManager() {
-		return new DomainManager();
-	}
-
     @Bean
     public EventProcessor eventProcessor(final ConnectionFactory connectionFactory) {
-        return new EventProcessor(domainManager(), modelOutputProcessor(connectionFactory));
+        return new EventProcessor(domainManager, outboundMessageSender);
     }
 
     @Bean
