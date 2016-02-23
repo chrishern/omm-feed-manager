@@ -10,6 +10,7 @@ import com.hazelcast.config.MapConfig;
 import com.hazelcast.core.HazelcastInstance;
 import net.chris.controller.EventController;
 import net.chris.domain.DomainManager;
+import net.chris.event.EventProcessor;
 import net.chris.incident.IncidentProcessor;
 import net.chris.messaging.IncomingMessageListener;
 import net.chris.model.ModelClient;
@@ -103,8 +104,13 @@ public class Application {
 	}
 
     @Bean
-    public EventController eventController() {
-        return new EventController(domainManager());
+    public EventProcessor eventProcessor(final ConnectionFactory connectionFactory) {
+        return new EventProcessor(domainManager(), modelOutputProcessor(connectionFactory));
+    }
+
+    @Bean
+    public EventController eventController(final ConnectionFactory connectionFactory) {
+        return new EventController(eventProcessor(connectionFactory));
     }
 
 	public static void main (final String [] args) {

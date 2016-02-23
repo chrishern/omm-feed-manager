@@ -8,8 +8,19 @@
 	</parent>
 	<artifactId>omm-feed-manager-app</artifactId>
 
+	<dependencies>
+		<dependency>
+			<groupId>net.chris</groupId>
+			<artifactId>omm-feed-manager-api</artifactId>
+		</dependency>
+	</dependencies>
+
 	<build>
 		<plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
 			<plugin>
 				<groupId>org.jsonschema2pojo</groupId>
 				<artifactId>jsonschema2pojo-maven-plugin</artifactId>

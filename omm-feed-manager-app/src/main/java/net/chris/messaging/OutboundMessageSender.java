@@ -3,6 +3,7 @@ package net.chris.messaging;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.chris.api.model.output.OutboundMessage;
+import net.chris.outbound.EventCreatedMessage;
 import org.springframework.jms.core.JmsTemplate;
 
 public class OutboundMessageSender {
@@ -26,5 +27,11 @@ public class OutboundMessageSender {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+    }
+
+    public void sendEventCreatedMessage(final EventCreatedMessage message) {
+        System.out.println("Publishing to topic:" + message);
+
+        jmsTemplate.convertAndSend(message);
     }
 }

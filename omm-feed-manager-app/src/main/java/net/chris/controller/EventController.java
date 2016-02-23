@@ -2,11 +2,11 @@ package net.chris.controller;
 
 import java.net.URI;
 
-import net.chris.domain.DomainManager;
 import net.chris.domain.EventDetails;
 import net.chris.domain.EventExistsException;
 import net.chris.domain.EventNotFoundException;
 import net.chris.domain.InvalidEventDetailsException;
+import net.chris.event.EventProcessor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,22 +22,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/events")
 public class EventController {
 
-    private DomainManager domainManager;
+    private EventProcessor eventProcessor;
 
-    public EventController(final DomainManager domainManager) {
-        this.domainManager = domainManager;
+    public EventController(final EventProcessor eventProcessor) {
+        this.eventProcessor = eventProcessor;
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Void> createEvent(final @RequestBody EventDetails event) throws EventExistsException {
-        domainManager.createEvent(event);
+        eventProcessor.processEventCreation(event);
 
         return ResponseEntity.created(URI.create(event.getCaerusId())).build();
     }
 
     @RequestMapping(value = "/{eventId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public EventDetails getEvent(final @PathVariable("eventId") String eventId) throws EventNotFoundException, InvalidEventDetailsException {
-        return domainManager.getEvent(eventId);
+        return eventProcessor.getEvent(eventId);
     }
 
     @ExceptionHandler(EventExistsException.class)
