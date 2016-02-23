@@ -1,5 +1,8 @@
 package net.chris.domain;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IList;
 import com.hazelcast.core.IMap;
@@ -40,6 +43,14 @@ public class DomainManager {
                 .build();
 
         throw invalidEventDetailsException;
+    }
+
+    public List<EventDetails> getEvents() {
+        final List<EventDetails> events = hazelcastInstance.getMap(Application.EVENT_DETAILS_MAP).values().stream().map(
+                object -> (EventDetails) object)
+                .collect(Collectors.toList());
+
+        return events;
     }
 
     private void failIfObjectNotFound(String caerusId, Object object) throws EventNotFoundException {

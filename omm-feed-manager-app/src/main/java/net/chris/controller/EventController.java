@@ -1,6 +1,7 @@
 package net.chris.controller;
 
 import java.net.URI;
+import java.util.List;
 
 import net.chris.domain.EventDetails;
 import net.chris.domain.EventExistsException;
@@ -38,6 +39,11 @@ public class EventController {
     @RequestMapping(value = "/{eventId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public EventDetails getEvent(final @PathVariable("eventId") String eventId) throws EventNotFoundException, InvalidEventDetailsException {
         return eventProcessor.getEvent(eventId);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<EventDetails> getEvents() {
+        return eventProcessor.getEvents();
     }
 
     @ExceptionHandler(EventExistsException.class)

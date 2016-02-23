@@ -7,11 +7,13 @@ import java.util.Deque;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.jms.core.JmsTemplate;
 
+<<<<<<< Updated upstream
 //@Ignore
+=======
+>>>>>>> Stashed changes
 public class ReplayFootballGame {
 
     private static String data_directory = "/Users/neild/259407";

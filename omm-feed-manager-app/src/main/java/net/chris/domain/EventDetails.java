@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 public class EventDetails implements Serializable {
 
     private final String caerusId;
-    private final String openBetId;
+        private final String openBetId;
 
     private final String homeTeamName;
     private final String awayTeamName;

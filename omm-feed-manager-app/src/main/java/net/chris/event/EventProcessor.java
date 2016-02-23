@@ -1,5 +1,7 @@
 package net.chris.event;
 
+import java.util.List;
+
 import net.chris.domain.DomainManager;
 import net.chris.domain.EventDetails;
 import net.chris.domain.EventExistsException;
@@ -30,5 +32,9 @@ public class EventProcessor {
 
     public EventDetails getEvent(final String eventId) throws EventNotFoundException, InvalidEventDetailsException {
         return domainManager.getEvent(eventId);
+    }
+
+    public List<EventDetails> getEvents() {
+        return domainManager.getEvents();
     }
 }

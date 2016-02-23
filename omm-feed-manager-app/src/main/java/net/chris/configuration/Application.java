@@ -16,6 +16,7 @@ import net.chris.messaging.IncomingMessageListener;
 import net.chris.messaging.OutboundMessageSender;
 import net.chris.model.ModelClient;
 import net.chris.model.ModelRestClient;
+import net.chris.web.SimpleCORSFilter;
 import org.apache.activemq.command.ActiveMQTopic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -96,6 +97,11 @@ public class Application {
     @Bean
     public EventController eventController(final ConnectionFactory connectionFactory) {
         return new EventController(eventProcessor(connectionFactory));
+    }
+
+    @Bean
+    public SimpleCORSFilter corsFilter() {
+        return new SimpleCORSFilter();
     }
 
 	public static void main (final String [] args) {
