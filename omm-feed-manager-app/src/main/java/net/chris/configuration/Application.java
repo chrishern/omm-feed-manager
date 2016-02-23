@@ -13,7 +13,7 @@ import net.chris.domain.DomainManager;
 import net.chris.incident.IncidentProcessor;
 import net.chris.messaging.IncomingMessageListener;
 import net.chris.model.ModelClient;
-import net.chris.model.ModelOutputProcessor;
+import net.chris.messaging.OutboundMessageSender;
 import net.chris.model.ModelRestClient;
 import org.apache.activemq.command.ActiveMQTopic;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,8 +79,8 @@ public class Application {
 	}
 
     @Bean
-    public ModelOutputProcessor modelOutputProcessor(final ConnectionFactory connectionFactory) {
-        return new ModelOutputProcessor(jmsTemplate(connectionFactory));
+    public OutboundMessageSender modelOutputProcessor(final ConnectionFactory connectionFactory) {
+        return new OutboundMessageSender(jmsTemplate(connectionFactory));
     }
 
     @Bean

@@ -1,15 +1,15 @@
-package net.chris.model;
+package net.chris.messaging;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.chris.api.model.output.OutboundMessage;
 import org.springframework.jms.core.JmsTemplate;
 
-public class ModelOutputProcessor {
+public class OutboundMessageSender {
 
     private JmsTemplate jmsTemplate;
 
-    public ModelOutputProcessor(final JmsTemplate jmsTemplate) {
+    public OutboundMessageSender(final JmsTemplate jmsTemplate) {
         this.jmsTemplate = jmsTemplate;
     }
 

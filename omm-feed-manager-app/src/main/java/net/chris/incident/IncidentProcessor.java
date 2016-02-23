@@ -12,22 +12,22 @@ import net.chris.api.caerus.output.CaerusOutput;
 import net.chris.api.model.output.OutboundMessage;
 import net.chris.incident.adapter.ModelIncidentAdapter;
 import net.chris.model.ModelClient;
-import net.chris.model.ModelOutputProcessor;
+import net.chris.messaging.OutboundMessageSender;
 
 public class IncidentProcessor {
 
 	private ModelClient modelClient;
-    private ModelOutputProcessor modelOutputProcessor;
+    private OutboundMessageSender outboundMessageSender;
 
-    public IncidentProcessor(final ModelClient modelClient, final ModelOutputProcessor modelOutputProcessor) {
+    public IncidentProcessor(final ModelClient modelClient, final OutboundMessageSender outboundMessageSender) {
         this.modelClient = modelClient;
-        this.modelOutputProcessor = modelOutputProcessor;
+        this.outboundMessageSender = outboundMessageSender;
     }
 
 	public void processIncidentUpdate(final CaerusOutput incidentMessage) {
         final OutboundMessage modelOutput = sendUpdateToModel(incidentMessage);
 
-        modelOutputProcessor.processModelOutput(modelOutput);
+        outboundMessageSender.processModelOutput(modelOutput);
     }
 
     private OutboundMessage sendUpdateToModel(final CaerusOutput incidentMessage) {
