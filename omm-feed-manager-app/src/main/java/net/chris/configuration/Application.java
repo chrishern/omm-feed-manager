@@ -5,7 +5,11 @@ import javax.jms.ConnectionFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.hazelcast.config.Config;
+import com.hazelcast.config.ListConfig;
+import com.hazelcast.config.MapConfig;
 import com.hazelcast.core.HazelcastInstance;
+import net.chris.controller.EventController;
+import net.chris.domain.DomainManager;
 import net.chris.incident.IncidentProcessor;
 import net.chris.messaging.IncomingMessageListener;
 import net.chris.model.ModelClient;
@@ -23,6 +27,9 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 @EnableJms
 public class Application {
+
+    public final static String EVENT_DETAILS_MAP = "eventDetailsMap";
+    public final static String OPENBET_IDS_LIST = "openBetIdsList";
 
     @Autowired
     private HazelcastInstance instance;
@@ -48,7 +55,7 @@ public class Application {
 	
 	@Bean
 	public IncidentProcessor incidentProcessor(final ConnectionFactory connectionFactory) {
-		return new IncidentProcessor(modelClient(), modelOutputProcessor(connectionFactory), instance);
+		return new IncidentProcessor(modelClient(), modelOutputProcessor(connectionFactory));
 	}
 
     @Bean
@@ -78,7 +85,26 @@ public class Application {
 
     @Bean
     public Config hazelcastConfig() {
-        return new Config();
+
+        final MapConfig mapConfig = new MapConfig();
+        mapConfig.setName(EVENT_DETAILS_MAP);
+
+        final ListConfig listConfig = new ListConfig();
+        listConfig.setName(OPENBET_IDS_LIST);
+
+        return new Config()
+                .addListConfig(listConfig)
+                .addMapConfig(mapConfig);
+    }
+
+	@Bean
+	public DomainManager domainManager() {
+		return new DomainManager();
+	}
+
+    @Bean
+    public EventController eventController() {
+        return new EventController(domainManager());
     }
 
 	public static void main (final String [] args) {
