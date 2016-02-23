@@ -81,7 +81,7 @@ public class IncidentProcessor {
 
         currentEventState.period = ModelIncidentAdapter.toModelPeriod(incidentMessage.getPeriod());
 
-        if (!incidentMessage.getPeriod().equals("PRE_MATCH")) {
+        if (modelIncidents != null && !modelIncidents.isEmpty()) {
             final IncidentDto finalIncident = modelIncidents.get(modelIncidents.size() - 1);
             currentEventState.gameSeconds = finalIncident.getGameSeconds();
         }
