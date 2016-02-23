@@ -1,10 +1,12 @@
-package net.chris.api.model.output;
+package net.chris.model.output;
 
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.base.MoreObjects;
 import com.williamhill.trading.rnd.frameworks.model.api.market.Market;
 import com.williamhill.trading.rnd.frameworks.model.api.market.enums.DisplayStatus;
 import com.williamhill.trading.rnd.frameworks.model.api.market.enums.MarketStatus;
@@ -13,7 +15,7 @@ import com.williamhill.trading.rnd.frameworks.model.api.market.values.HandicapRe
 import com.williamhill.trading.rnd.frameworks.model.domain.template.market.MarketTemplate;
 import com.williamhill.trading.rnd.frameworks.model.domain.template.market.properties.GtpClass;
 
-public class OutboundMarket {
+public class OutboundMarket implements Serializable {
 
     public static OutboundMarket from(Market m, MarketTemplate t) {
         return new OutboundMarket( //
@@ -39,7 +41,7 @@ public class OutboundMarket {
     private DisplayStatus displayStatus;
     private Double handicapValue;
     private HandicapResult handicapResult;
-    private OutboundSelection[] selections;
+    private List<OutboundSelection> selections;
     private Map<String, Object> metadata;
 
     public OutboundMarket() {
@@ -56,7 +58,7 @@ public class OutboundMarket {
                             DisplayStatus displayStatus, //
                             Double handicapValue, //
                             HandicapResult handicapResult, //
-                            OutboundSelection[] selections, //
+                            List<OutboundSelection> selections, //
                             Map<String, Object> metadata) {
         this.name = name;
         this.gtpClass = gtpClass;
@@ -82,7 +84,7 @@ public class OutboundMarket {
                 this.displayStatus, //
                 this.handicapValue, //
                 this.handicapResult, //
-                updatedSelections.toArray(new OutboundSelection[updatedSelections.size()]), //
+                updatedSelections, //
                 this.metadata //
         );
     }
@@ -123,11 +125,28 @@ public class OutboundMarket {
         return this.handicapResult;
     }
 
-    public OutboundSelection[] getSelections() {
+    public List<OutboundSelection> getSelections() {
         return this.selections;
     }
 
     public Map<String, Object> getMetadata() {
         return this.metadata;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("name", name)
+                .add("gtpClass", gtpClass)
+                .add("inPlay", inPlay)
+                .add("cashOutAvailable", cashOutAvailable)
+                .add("status", status)
+                .add("publishingStatus", publishingStatus)
+                .add("displayStatus", displayStatus)
+                .add("handicapValue", handicapValue)
+                .add("handicapResult", handicapResult)
+                .add("selections", selections)
+                .add("metadata", metadata)
+                .toString();
     }
 }

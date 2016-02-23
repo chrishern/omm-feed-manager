@@ -4,7 +4,7 @@ package net.chris.model;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.williamhill.rnd.football.minutemarkets.villager.dto.MinuteMarketsFootballEventDto;
-import net.chris.api.model.output.OutboundMessage;
+import net.chris.model.output.ModelOutboundMessage;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
@@ -19,7 +19,7 @@ public class ModelRestClient implements ModelClient {
     }
 
     @Override
-    public OutboundMessage sendIncidentUpdate(final MinuteMarketsFootballEventDto incidentUpdate) {
+    public ModelOutboundMessage sendIncidentUpdate(final MinuteMarketsFootballEventDto incidentUpdate) {
 
         // TODO - don't need this
         ObjectMapper objectMapper = new ObjectMapper();
@@ -27,9 +27,9 @@ public class ModelRestClient implements ModelClient {
         try {
             System.out.println("CALLING MODEL WITH: " + objectMapper.writeValueAsString(incidentUpdate));
 
-            final ResponseEntity<OutboundMessage> modelResponse = restTemplate.postForEntity(modelPriceUrl, incidentUpdate, OutboundMessage.class);
+            final ResponseEntity<ModelOutboundMessage> modelResponse = restTemplate.postForEntity(modelPriceUrl, incidentUpdate, ModelOutboundMessage.class);
 
-            final OutboundMessage modelResponseBody = modelResponse.getBody();
+            final ModelOutboundMessage modelResponseBody = modelResponse.getBody();
 
             System.out.println("RECEIVED RESPONSE FROM MODEL: " + objectMapper.writeValueAsString(modelResponseBody));
 

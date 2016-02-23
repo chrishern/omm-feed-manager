@@ -26,7 +26,12 @@ public class IncomingMessageListener {
 		final CaerusOutput caerusOutput = objectMapper.readValue(message, CaerusOutput.class);
 		
 		System.out.println("SUCCESSFULLY READ MESSAGE");
-		
-		incidentProcessor.processIncidentUpdate(caerusOutput);
-	}
+
+        try {
+            incidentProcessor.processIncidentUpdate(caerusOutput);
+        } catch (Exception e) {
+            System.out.println("EXCEPTION WHEN PROCESSING INCIDENT UPDATE");
+            e.printStackTrace();
+        }
+    }
 }

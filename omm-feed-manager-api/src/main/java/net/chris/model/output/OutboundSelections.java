@@ -1,4 +1,4 @@
-package net.chris.api.model.output;
+package net.chris.model.output;
 
 
 import java.util.ArrayList;
@@ -11,12 +11,12 @@ import com.williamhill.trading.rnd.frameworks.model.domain.template.market.Selec
 
 public class OutboundSelections {
 
-    public static OutboundSelection[] from(Selections selections, Map<String, SelectionTemplate> templates) {
+    public static List<OutboundSelection> from(Selections selections, Map<String, SelectionTemplate> templates) {
         List<OutboundSelection> outboundSelections = new ArrayList<OutboundSelection>();
         for (Selection selection : selections) {
             OutboundSelection outboundSelection = OutboundSelection.from(selection, templates.get(selection.getName()));
             outboundSelections.add(outboundSelection);
         }
-        return outboundSelections.toArray(new OutboundSelection[outboundSelections.size()]);
+        return outboundSelections;
     }
 }

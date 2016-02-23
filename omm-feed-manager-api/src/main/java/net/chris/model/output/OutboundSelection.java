@@ -1,9 +1,11 @@
-package net.chris.api.model.output;
+package net.chris.model.output;
 
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Map;
 
+import com.google.common.base.MoreObjects;
 import com.williamhill.trading.rnd.frameworks.model.api.market.Selection;
 import com.williamhill.trading.rnd.frameworks.model.api.market.enums.DisplayStatus;
 import com.williamhill.trading.rnd.frameworks.model.api.market.enums.PublishingStatus;
@@ -11,7 +13,7 @@ import com.williamhill.trading.rnd.frameworks.model.api.market.enums.SelectionRe
 import com.williamhill.trading.rnd.frameworks.model.api.market.enums.SelectionType;
 import com.williamhill.trading.rnd.frameworks.model.domain.template.market.SelectionTemplate;
 
-public class OutboundSelection {
+public class OutboundSelection implements Serializable {
 
     public static OutboundSelection from(Selection s, SelectionTemplate t) {
         return new OutboundSelection( //
@@ -101,5 +103,21 @@ public class OutboundSelection {
 
     public Map<String, Object> getMetadata() {
         return this.metadata;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("name", name)
+                .add("type", type)
+                .add("publishingStatus", publishingStatus)
+                .add("displayStatus", displayStatus)
+                .add("probability", probability)
+                .add("publishingStatus", publishingStatus)
+                .add("overroundedDecimalPrice", overroundedDecimalPrice)
+                .add("fractional", fractional)
+                .add("result", result)
+                .add("metadata", metadata)
+                .toString();
     }
 }

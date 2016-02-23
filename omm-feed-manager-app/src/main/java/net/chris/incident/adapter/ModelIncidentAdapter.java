@@ -17,7 +17,7 @@ public final class ModelIncidentAdapter {
         return modelIncident;
     }
 
-    private static String toModelPeriod(final String caerusPeriod) {
+    public static String toModelPeriod(final String caerusPeriod) {
         if (caerusPeriod.equals("PRE_GAME")) {
             return "PRE_MATCH";
         }

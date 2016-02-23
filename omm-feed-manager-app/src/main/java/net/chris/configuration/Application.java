@@ -56,7 +56,7 @@ public class Application {
 	
 	@Bean
 	public IncidentProcessor incidentProcessor(final ConnectionFactory connectionFactory) {
-		return new IncidentProcessor(modelClient(), modelOutputProcessor(connectionFactory));
+		return new IncidentProcessor(modelClient(), modelOutputProcessor(connectionFactory), domainManager());
 	}
 
     @Bean
