@@ -17,6 +17,7 @@ import net.chris.incident.adapter.ModelIncidentAdapter;
 import net.chris.messaging.OutboundMessageSender;
 import net.chris.model.ModelClient;
 import net.chris.model.output.ModelOutboundMessage;
+import net.chris.outbound.IncidentMessage;
 import net.chris.outbound.ModelUpdateMessage;
 
 public class IncidentProcessor {
@@ -32,23 +33,45 @@ public class IncidentProcessor {
     }
 
 	public void processIncidentUpdate(final CaerusOutput incidentMessage) throws EventNotFoundException, InvalidEventDetailsException {
-        final EventDetails eventDetails = domainManager.getEvent(String.valueOf(incidentMessage.getEventId()));
-        final ModelOutboundMessage modelOutput = sendUpdateToModel(incidentMessage, eventDetails);
 
+        final EventDetails eventDetails = domainManager.getEvent(String.valueOf(incidentMessage.getEventId()));
+        final List<IncidentDto> modelIncidents = incidentMessage.getIncidents().stream().map(
+                caerusIncident -> ModelIncidentAdapter.fromCaerusIncident(caerusIncident))
+                .collect(Collectors.toList());
+        final ModelOutboundMessage modelOutput = sendUpdateToModel(incidentMessage, eventDetails, modelIncidents);
+
+        sendOutboundModelMessage(eventDetails, modelOutput);
+        sendIncidentUpdate(incidentMessage, modelIncidents);
+    }
+
+    private void sendIncidentUpdate(final CaerusOutput incidentMessage, final List<IncidentDto> modelIncidents) {
+
+        if (doesEventHaveIncidents(modelIncidents)) {
+            final IncidentDto finalIncident = getLastIncident(modelIncidents);
+
+            final IncidentMessage outgoingIncidentMessage = IncidentMessage.newBuilder()
+                    .withOpenBetId(incidentMessage.getTradingId())
+                    .withHomeTeamName(incidentMessage.getHomeTeamName())
+                    .withAwayTeamName(incidentMessage.getAwayTeamName())
+                    .withGameSeconds(finalIncident.getGameSeconds())
+                    .withType(finalIncident.getIncidentType().getType())
+                    .build();
+
+            outboundMessageSender.sendIncidentOutput(outgoingIncidentMessage);
+        }
+    }
+
+    private void sendOutboundModelMessage(final EventDetails eventDetails, final ModelOutboundMessage modelOutput) {
         final ModelUpdateMessage modelUpdateMessage = ModelUpdateMessage.newBuilder()
                 .withCaerusId(eventDetails.getCaerusId())
                 .withOpenBetId(eventDetails.getOpenBetId())
                 .withModelData(modelOutput)
                 .build();
 
-        outboundMessageSender.processModelOutput(modelUpdateMessage);
+        outboundMessageSender.sendModelOutput(modelUpdateMessage);
     }
 
-    private ModelOutboundMessage sendUpdateToModel(final CaerusOutput incidentMessage, final EventDetails eventDetails) {
-
-        final List<IncidentDto> modelIncidents = incidentMessage.getIncidents().stream().map(
-                caerusIncident -> ModelIncidentAdapter.fromCaerusIncident(caerusIncident))
-                .collect(Collectors.toList());
+    private ModelOutboundMessage sendUpdateToModel(final CaerusOutput incidentMessage, final EventDetails eventDetails, final List<IncidentDto> modelIncidents) {
 
         final CurrentEventState currentState = getCurrentState(incidentMessage, modelIncidents);
 
@@ -81,12 +104,20 @@ public class IncidentProcessor {
 
         currentEventState.period = ModelIncidentAdapter.toModelPeriod(incidentMessage.getPeriod());
 
-        if (modelIncidents != null && !modelIncidents.isEmpty()) {
-            final IncidentDto finalIncident = modelIncidents.get(modelIncidents.size() - 1);
+        if (doesEventHaveIncidents(modelIncidents)) {
+            final IncidentDto finalIncident = getLastIncident(modelIncidents);
             currentEventState.gameSeconds = finalIncident.getGameSeconds();
         }
 
         return currentEventState;
+    }
+
+    private IncidentDto getLastIncident(List<IncidentDto> modelIncidents) {
+        return modelIncidents.get(modelIncidents.size() - 1);
+    }
+
+    private boolean doesEventHaveIncidents(final List<IncidentDto> modelIncidents) {
+        return modelIncidents != null && !modelIncidents.isEmpty();
     }
 
     private class CurrentEventState {

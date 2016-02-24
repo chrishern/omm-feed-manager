@@ -23,16 +23,33 @@ public class CommonComponents {
 
     @Bean
     public OutboundMessageSender outboundMessageSender(final ConnectionFactory connectionFactory) {
-        return new OutboundMessageSender(jmsTemplate(connectionFactory));
+        return new OutboundMessageSender(modelJmsTemplate(connectionFactory), modelUpdateTopic(), incidentUpdateTopic());
     }
 
     @Bean
-    public JmsTemplate jmsTemplate(final ConnectionFactory connectionFactory) {
+    public JmsTemplate modelJmsTemplate(final ConnectionFactory connectionFactory) {
         final JmsTemplate jmsTemplate = new JmsTemplate(connectionFactory);
-        final ActiveMQTopic topic = new ActiveMQTopic("minuteMarketsModelUpdateTopic");
-
-        jmsTemplate.setDefaultDestination(topic);
 
         return jmsTemplate;
     }
+
+    @Bean
+    public ActiveMQTopic modelUpdateTopic() {
+        return new ActiveMQTopic("minuteMarketsModelUpdateTopic");
+    }
+
+    @Bean
+    public ActiveMQTopic incidentUpdateTopic() {
+        return new ActiveMQTopic("incidentsTopic");
+    }
+
+//    @Bean
+//    public JmsTemplate incidentJmsTemplate(final ConnectionFactory connectionFactory) {
+//        final JmsTemplate jmsTemplate = new JmsTemplate(connectionFactory);
+//        final ActiveMQTopic topic = new ActiveMQTopic("incidentsTopic");
+//
+//        jmsTemplate.setDefaultDestination(topic);
+//
+//        return jmsTemplate;
+//    }
 }

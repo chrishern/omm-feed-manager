@@ -10,13 +10,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.jms.core.JmsTemplate;
 
-<<<<<<< Updated upstream
 //@Ignore
-=======
->>>>>>> Stashed changes
 public class ReplayFootballGame {
 
-    private static String data_directory = "/Users/neild/259407";
+    private static String data_directory = "/home/chrishern/hackathon/caerusfeed/259407";
     private static String eventIdFields[] = new String[]{"eventId"};
     private static String destination = "minuteMarketsUpdateTopic";
 

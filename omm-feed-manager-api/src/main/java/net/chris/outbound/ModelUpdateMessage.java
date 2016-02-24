@@ -15,6 +15,18 @@ public class ModelUpdateMessage implements OutboundMessage {
         this.openBetId = builder.openBetId;
     }
 
+    public String getCaerusId() {
+        return caerusId;
+    }
+
+    public String getOpenBetId() {
+        return openBetId;
+    }
+
+    public ModelOutboundMessage getModelData() {
+        return modelData;
+    }
+
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)

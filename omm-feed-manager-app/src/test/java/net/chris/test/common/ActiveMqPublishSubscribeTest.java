@@ -10,7 +10,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class ActiveMqPublishSubscribeTest {
+public abstract class 	ActiveMqPublishSubscribeTest {
 
 	@Autowired
 	private ConnectionFactory connectionFactory;

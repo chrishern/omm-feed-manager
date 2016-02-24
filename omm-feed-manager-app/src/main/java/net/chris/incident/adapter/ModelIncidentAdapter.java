@@ -20,6 +20,8 @@ public final class ModelIncidentAdapter {
     public static String toModelPeriod(final String caerusPeriod) {
         if (caerusPeriod.equals("PRE_GAME")) {
             return "PRE_MATCH";
+        } else if (caerusPeriod.equals("POST_GAME")) {
+            return "POST_MATCH";
         }
 
         return caerusPeriod;

@@ -46,7 +46,7 @@ public class DomainManager {
     }
 
     public List<EventDetails> getEvents() {
-        final List<EventDetails> events = hazelcastInstance.getMap(Application.EVENT_DETAILS_MAP).values().stream().map(
+            final List<EventDetails> events = hazelcastInstance.getMap(Application.EVENT_DETAILS_MAP).values().stream().map(
                 object -> (EventDetails) object)
                 .collect(Collectors.toList());
 
